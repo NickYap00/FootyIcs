@@ -1,0 +1,288 @@
+:root {
+  --bg: #0d1117;
+  --card: #161b22;
+  --border: #30363d;
+  --text: #e6edf3;
+  --muted: #8b949e;
+  --accent: #2ea043;
+  --accent-hover: #3fb950;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.5;
+}
+
+.container {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 2rem 1.25rem 4rem;
+}
+
+header h1 {
+  margin: 0;
+  font-size: 2rem;
+}
+
+.tagline {
+  color: var(--muted);
+  margin-top: 0.25rem;
+}
+
+.picker {
+  margin: 2rem 0 1rem;
+}
+
+.picker label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.select {
+  position: relative;
+}
+
+.select-trigger {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.7rem 0.9rem;
+  font-size: 1rem;
+  background: var(--card);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  cursor: pointer;
+  text-align: left;
+}
+
+.select-trigger:disabled {
+  cursor: default;
+  opacity: 0.7;
+}
+
+.select-trigger:not(:disabled):hover {
+  border-color: var(--muted);
+}
+
+.select-caret {
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+
+.select-options {
+  position: absolute;
+  z-index: 10;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  max-height: 320px;
+  overflow-y: auto;
+  margin: 0;
+  padding: 0.25rem;
+  list-style: none;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
+.select-option {
+  padding: 0.5rem 0.6rem;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.select-option:hover {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.status {
+  min-height: 1.2rem;
+  color: var(--muted);
+  margin: 0.5rem 0;
+}
+
+.status.error {
+  color: #f85149;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: center;
+  margin: 1rem 0 1.5rem;
+}
+
+.subscribe {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.btn {
+  display: inline-block;
+  padding: 0.6rem 1rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-decoration: none;
+  color: var(--text);
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.btn:hover {
+  border-color: var(--muted);
+}
+
+.btn.primary {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+.btn.primary:hover {
+  background: var(--accent-hover);
+}
+
+.btn.ghost {
+  background: transparent;
+}
+
+.hidden {
+  display: none;
+}
+
+.fixtures {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.fixture {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.85rem 1rem;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+}
+
+.fixture-info {
+  min-width: 0;
+}
+
+.fixture-match {
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.team {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.team-logo {
+  width: 22px;
+  height: 22px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.vs {
+  color: var(--muted);
+  font-weight: 400;
+  font-size: 0.85rem;
+}
+
+.fixture-meta {
+  color: var(--muted);
+  font-size: 0.85rem;
+  margin-top: 0.15rem;
+}
+
+.fixture-download {
+  flex-shrink: 0;
+  font-size: 0.85rem;
+  padding: 0.4rem 0.7rem;
+}
+
+.skeleton-fixture {
+  pointer-events: none;
+}
+
+.skel {
+  display: inline-block;
+  border-radius: 6px;
+  background: var(--border);
+  background-image: linear-gradient(
+    90deg,
+    var(--border) 0%,
+    rgba(255, 255, 255, 0.08) 50%,
+    var(--border) 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.4s ease-in-out infinite;
+}
+
+.skel-badge {
+  width: 96px;
+  height: 22px;
+}
+
+.skel-vs {
+  width: 18px;
+  height: 12px;
+}
+
+.skel-meta {
+  width: 60%;
+  min-width: 140px;
+  height: 12px;
+  margin-top: 0.35rem;
+  border-radius: 4px;
+}
+
+.skel-btn {
+  flex-shrink: 0;
+  width: 52px;
+  height: 30px;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skel {
+    animation: none;
+    background-image: none;
+    background: var(--border);
+  }
+}
