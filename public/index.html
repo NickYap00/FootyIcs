@@ -6,52 +6,56 @@
     <title>FootyIcs — Fixtures to Calendar</title>
     <link rel="stylesheet" href="/styles.css" />
   </head>
-  <body>
+  <body class="intro">
     <main class="container">
       <header>
-        <h1>⚽ FootyIcs</h1>
-        <p class="tagline">
-          Never miss another game! All your games saved to your calendar at once.
-        </p>
+        <center>
+          <h1>⚽ FootyIcs</h1>
+          <p class="tagline">
+            Never miss another game! All your games saved to your calendar at once.
+          </p>
+        </center>
       </header>
 
-      <section class="picker">
+      <section class="picker league">
         <label id="league-label" for="league-select">Choose a league</label>
         <select id="league-select" class="native-select" disabled>
           <option>Loading leagues…</option>
         </select>
       </section>
 
-      <section class="picker">
-        <label id="team-label">Choose a team</label>
-        <div id="team-select" class="select" aria-disabled="true">
-          <button
-            id="team-trigger"
-            class="select-trigger"
-            type="button"
-            aria-haspopup="listbox"
-            aria-expanded="false"
-            aria-labelledby="team-label"
-            disabled
-          >
-            <span class="select-value">Loading teams…</span>
-            <span class="select-caret" aria-hidden="true">▾</span>
-          </button>
-          <ul id="team-options" class="select-options hidden" role="listbox" tabindex="-1"></ul>
-        </div>
-      </section>
+      <div class="after-league">
+        <section class="picker">
+          <label id="team-label">Choose a team</label>
+          <div id="team-select" class="select" aria-disabled="true">
+            <button
+              id="team-trigger"
+              class="select-trigger"
+              type="button"
+              aria-haspopup="listbox"
+              aria-expanded="false"
+              aria-labelledby="team-label"
+              disabled
+            >
+              <span class="select-value">Loading teams…</span>
+              <span class="select-caret" aria-hidden="true">▾</span>
+            </button>
+            <ul id="team-options" class="select-options hidden" role="listbox" tabindex="-1"></ul>
+          </div>
+        </section>
 
-      <p id="status" class="status" role="status" aria-live="polite"></p>
+        <p id="status" class="status" role="status" aria-live="polite"></p>
 
-      <section id="actions" class="actions hidden">
-        <a id="download-all" class="btn primary" href="#">Download all fixtures (.ics)</a>
-        <div class="subscribe">
-          <a id="subscribe-link" class="btn" href="#">Subscribe in calendar</a>
-          <button id="copy-link" class="btn ghost" type="button">Copy subscribe URL</button>
-        </div>
-      </section>
+        <section id="actions" class="actions hidden">
+          <a id="download-all" class="btn primary" href="#">Download all fixtures (.ics)</a>
+          <div class="subscribe">
+            <a id="subscribe-link" class="btn" href="#">Subscribe in calendar</a>
+            <button id="copy-link" class="btn ghost" type="button">Copy subscribe URL</button>
+          </div>
+        </section>
 
-      <ul id="fixtures" class="fixtures"></ul>
+        <ul id="fixtures" class="fixtures"></ul>
+      </div>
     </main>
 
     <script src="/app.js"></script>

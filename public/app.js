@@ -77,6 +77,12 @@ async function loadLeagues() {
 
     leagueSelectEl.innerHTML = '';
 
+    const placeholder = document.createElement('option');
+    placeholder.value = '';
+    placeholder.textContent = 'Choose a league…';
+    placeholder.selected = true;
+    leagueSelectEl.appendChild(placeholder);
+
     const topGroup = document.createElement('optgroup');
     topGroup.label = 'Top leagues';
     top.forEach((l) => topGroup.appendChild(leagueOption(l)));
@@ -88,7 +94,6 @@ async function loadLeagues() {
     leagueSelectEl.appendChild(restGroup);
 
     leagueSelectEl.disabled = false;
-    loadTeams();
   } catch (err) {
     setStatus(err.message, true);
   }
@@ -132,7 +137,7 @@ async function loadTeams() {
       );
     });
 
-    triggerValueEl.textContent = 'Select a team…';
+    triggerValueEl.textContent = 'Choose a team…';
     triggerEl.disabled = false;
     selectEl.setAttribute('aria-disabled', 'false');
     setStatus('');
@@ -256,6 +261,8 @@ document.addEventListener('keydown', (e) => {
 });
 
 leagueSelectEl.addEventListener('change', () => {
+  if (!currentLeague()) return;
+  document.body.classList.remove('intro');
   loadTeams();
 });
 

@@ -23,17 +23,80 @@ body {
 .container {
   max-width: 720px;
   margin: 0 auto;
+  min-height: 100vh;
   padding: 2rem 1.25rem 4rem;
+  transition: padding-top 0.7s ease;
 }
 
 header h1 {
   margin: 0;
   font-size: 2rem;
+  transition: font-size 0.7s ease;
 }
 
 .tagline {
   color: var(--muted);
   margin-top: 0.25rem;
+}
+
+/* Intro state: title + league selector centered on the page */
+body.intro .container {
+  padding-top: 30vh;
+}
+
+body.intro header {
+  text-align: center;
+}
+
+body.intro header h1 {
+  font-size: 72px;
+}
+
+body.intro .tagline {
+  display: none;
+}
+
+body.intro .after-league {
+  display: none;
+}
+
+/* Title + league selector fade in on load */
+header,
+.picker.league {
+  animation: fadeIn 0.8s ease both;
+}
+
+.picker.league {
+  animation-delay: 0.15s;
+}
+
+/* Team selector (and the rest) fade in once a league is chosen */
+.after-league {
+  animation: fadeIn 0.6s ease both;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .container,
+  header h1 {
+    transition: none;
+  }
+
+  header,
+  .picker.league,
+  .after-league {
+    animation: none;
+  }
 }
 
 .picker {
