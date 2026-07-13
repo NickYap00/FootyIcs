@@ -270,6 +270,10 @@ header h1 {
   height: 30px;
 }
 
+.skel-crest {
+  border-radius: 4px;
+}
+
 @keyframes shimmer {
   0% {
     background-position: 200% 0;

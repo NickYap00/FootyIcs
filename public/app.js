@@ -37,7 +37,8 @@ function formatDate(iso) {
 function teamBadge(name, logo, extraClass = '') {
   const escaped = escapeHtml(name || 'TBD');
   const img = logo
-    ? `<img class="team-logo ${extraClass}" src="${escapeHtml(logo)}" alt="" loading="lazy"
+    ? `<img class="team-logo skel skel-crest ${extraClass}" src="${escapeHtml(logo)}" alt="" loading="lazy"
+         onload="this.classList.remove('skel', 'skel-crest')"
          onerror="this.remove()" />`
     : '';
   return `<span class="team">${img}${escaped}</span>`;
