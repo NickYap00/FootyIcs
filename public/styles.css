@@ -46,6 +46,22 @@ header h1 {
   margin-bottom: 0.5rem;
 }
 
+.native-select {
+  width: 100%;
+  padding: 0.7rem 0.9rem;
+  font-size: 1rem;
+  font-family: inherit;
+  background: var(--card);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.native-select:hover {
+  border-color: var(--muted);
+}
+
 .select {
   position: relative;
 }

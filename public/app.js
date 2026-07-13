@@ -1,3 +1,4 @@
+const leagueSelectEl = document.getElementById('league-select');
 const selectEl = document.getElementById('team-select');
 const triggerEl = document.getElementById('team-trigger');
 const triggerValueEl = triggerEl.querySelector('.select-value');
@@ -55,15 +56,61 @@ function closeDropdown() {
   triggerEl.setAttribute('aria-expanded', 'false');
 }
 
+let selectedTeamId = null;
+
+function currentLeague() {
+  return leagueSelectEl.value;
+}
+
+function leagueOption(l) {
+  const opt = document.createElement('option');
+  opt.value = l.slug;
+  opt.textContent = l.name;
+  return opt;
+}
+
+async function loadLeagues() {
+  try {
+    const res = await fetch('/api/leagues');
+    if (!res.ok) throw new Error('Failed to load leagues');
+    const { top, rest } = await res.json();
+
+    leagueSelectEl.innerHTML = '';
+
+    const topGroup = document.createElement('optgroup');
+    topGroup.label = 'Top leagues';
+    top.forEach((l) => topGroup.appendChild(leagueOption(l)));
+    leagueSelectEl.appendChild(topGroup);
+
+    const restGroup = document.createElement('optgroup');
+    restGroup.label = 'All leagues';
+    rest.forEach((l) => restGroup.appendChild(leagueOption(l)));
+    leagueSelectEl.appendChild(restGroup);
+
+    leagueSelectEl.disabled = false;
+    loadTeams();
+  } catch (err) {
+    setStatus(err.message, true);
+  }
+}
+
 function selectTeam(id, name, logo) {
+  selectedTeamId = id;
   triggerValueEl.innerHTML = teamBadge(name, logo);
   closeDropdown();
   loadFixtures(id);
 }
 
 async function loadTeams() {
+  triggerEl.disabled = true;
+  selectEl.setAttribute('aria-disabled', 'true');
+  triggerValueEl.textContent = 'Loading teams…';
+  optionsEl.innerHTML = '';
+  selectedTeamId = null;
+  actionsEl.classList.add('hidden');
+  fixturesEl.innerHTML = '';
   try {
-    const res = await fetch('/api/teams');
+    const res = await fetch(`/api/teams?league=${encodeURIComponent(currentLeague())}`);
     if (!res.ok) throw new Error((await res.json()).error || 'Failed to load teams');
     const teams = await res.json();
 
@@ -113,7 +160,7 @@ function renderFixtures(fixtures, teamId) {
         <div class="fixture-meta">${meta} · ${escapeHtml(f.competition)}</div>
       </div>
       <a class="btn fixture-download"
-         href="/api/ics/event?team=${encodeURIComponent(teamId)}&event=${encodeURIComponent(f.id)}"
+         href="/api/ics/event?team=${encodeURIComponent(teamId)}&event=${encodeURIComponent(f.id)}&league=${encodeURIComponent(currentLeague())}"
          download>Add</a>
     `;
     fixturesEl.appendChild(li);
@@ -153,7 +200,10 @@ async function loadFixtures(teamId) {
   setStatus('Loading fixtures…');
   renderSkeleton();
   try {
-    const res = await fetch(`/api/fixtures?team=${encodeURIComponent(teamId)}`);
+    const league = currentLeague();
+    const res = await fetch(
+      `/api/fixtures?team=${encodeURIComponent(teamId)}&league=${encodeURIComponent(league)}`
+    );
     if (!res.ok) throw new Error((await res.json()).error || 'Failed to load fixtures');
     const fixtures = await res.json();
 
@@ -166,9 +216,9 @@ async function loadFixtures(teamId) {
     setStatus(`${fixtures.length} upcoming fixture${fixtures.length === 1 ? '' : 's'}.`);
     renderFixtures(fixtures, teamId);
 
-    downloadAll.href = `/api/ics?team=${encodeURIComponent(teamId)}`;
+    downloadAll.href = `/api/ics?team=${encodeURIComponent(teamId)}&league=${encodeURIComponent(league)}`;
 
-    const httpsUrl = `${location.origin}/calendar/${encodeURIComponent(teamId)}.ics`;
+    const httpsUrl = `${location.origin}/calendar/${encodeURIComponent(teamId)}.ics?league=${encodeURIComponent(league)}`;
     subscribeLink.href = httpsUrl.replace(/^https?:/, 'webcal:');
     copyLink.dataset.url = httpsUrl;
 
@@ -205,4 +255,8 @@ document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape') closeDropdown();
 });
 
-loadTeams();
+leagueSelectEl.addEventListener('change', () => {
+  loadTeams();
+});
+
+loadLeagues();

@@ -4,7 +4,7 @@ import { fileURLToPath } from 'node:url';
 
 import { getTeams, getFutureFixtures } from './src/espn.js';
 import { buildCalendar } from './src/ics.js';
-import { DEFAULT_LEAGUE, getLeague } from './src/config.js';
+import { DEFAULT_LEAGUE, getLeague, getLeagueList } from './src/config.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const app = express();
@@ -22,6 +22,10 @@ async function teamName(teamId, league) {
 }
 
 // --- JSON API ----------------------------------------------------------------
+
+app.get('/api/leagues', (req, res) => {
+  res.json(getLeagueList());
+});
 
 app.get('/api/teams', async (req, res) => {
   try {
